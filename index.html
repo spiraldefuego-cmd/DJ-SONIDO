@@ -1,758 +1,758 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spiral Wave Sound Engine - Pro DJ Set</title>
-    
-    <!-- Fuentes -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-    
-    <!-- Iconos -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spiral Wave Sound Engine - Pro DJ Set</title>
+    
+    <!-- Fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- Iconos -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 
-    <style>
-        :root {
-            /* Colores de la paleta Night Club */
-            --bg-dark: #050307; /* Negro profundo suavizado */
-            --mesh-blue: #004d7a;
-            --mesh-purple: #2d1b4d;
-            --mesh-neon: #00e5ff;
-            
-            --bg-card: rgba(15, 10, 20, 0.4);
-            --accent-blue: #00e5ff;
-            --accent-purple: #9d50bb;
-            --accent-gradient: linear-gradient(135deg, #00e5ff 0%, #9d50bb 100%);
-            --whatsapp-green: #25D366;
-            --text-light: #ffffff;
-            --transition-smooth: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-        }
+    <style>
+        :root {
+            /* Colores de la paleta Night Club */
+            --bg-dark: #050307; /* Negro profundo suavizado */
+            --mesh-blue: #004d7a;
+            --mesh-purple: #2d1b4d;
+            --mesh-neon: #00e5ff;
+            
+            --bg-card: rgba(15, 10, 20, 0.4);
+            --accent-blue: #00e5ff;
+            --accent-purple: #9d50bb;
+            --accent-gradient: linear-gradient(135deg, #00e5ff 0%, #9d50bb 100%);
+            --whatsapp-green: #25D366;
+            --text-light: #ffffff;
+            --transition-smooth: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            cursor: none; 
-        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none; 
+        }
 
-        html {
-            scroll-behavior: smooth;
-        }
+        html {
+            scroll-behavior: smooth;
+        }
 
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-light);
-            font-family: 'Open Sans', sans-serif;
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: 'Open Sans', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
 
-        /* --- Fondo de Malla Animada (Mesh Gradient) --- */
-        .night-club-mesh {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-            background: var(--bg-dark);
-            overflow: hidden;
-        }
+        /* --- Fondo de Malla Animada (Mesh Gradient) --- */
+        .night-club-mesh {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: var(--bg-dark);
+            overflow: hidden;
+        }
 
-        /* Esferas de color difuminadas para crear el efecto de malla */
-        .mesh-blob {
-            position: absolute;
-            width: 80vmax;
-            height: 80vmax;
-            border-radius: 50%;
-            filter: blur(120px);
-            opacity: 0.5;
-            animation: mesh-movement 20s infinite alternate ease-in-out;
-            pointer-events: none;
-        }
+        /* Esferas de color difuminadas para crear el efecto de malla */
+        .mesh-blob {
+            position: absolute;
+            width: 80vmax;
+            height: 80vmax;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.5;
+            animation: mesh-movement 20s infinite alternate ease-in-out;
+            pointer-events: none;
+        }
 
-        .blob-1 {
-            background: radial-gradient(circle, var(--mesh-purple) 0%, transparent 70%);
-            top: -20%;
-            left: -10%;
-        }
+        .blob-1 {
+            background: radial-gradient(circle, var(--mesh-purple) 0%, transparent 70%);
+            top: -20%;
+            left: -10%;
+        }
 
-        .blob-2 {
-            background: radial-gradient(circle, var(--mesh-blue) 0%, transparent 70%);
-            bottom: -20%;
-            right: -10%;
-            animation-duration: 25s;
-            animation-delay: -5s;
-        }
+        .blob-2 {
+            background: radial-gradient(circle, var(--mesh-blue) 0%, transparent 70%);
+            bottom: -20%;
+            right: -10%;
+            animation-duration: 25s;
+            animation-delay: -5s;
+        }
 
-        .blob-3 {
-            background: radial-gradient(circle, rgba(157, 80, 187, 0.2) 0%, transparent 60%);
-            top: 30%;
-            right: 20%;
-            animation-duration: 18s;
-        }
+        .blob-3 {
+            background: radial-gradient(circle, rgba(157, 80, 187, 0.2) 0%, transparent 60%);
+            top: 30%;
+            right: 20%;
+            animation-duration: 18s;
+        }
 
-        .blob-4 {
-            background: radial-gradient(circle, rgba(0, 229, 255, 0.1) 0%, transparent 60%);
-            bottom: 20%;
-            left: 10%;
-            animation-duration: 22s;
-            animation-delay: -2s;
-        }
+        .blob-4 {
+            background: radial-gradient(circle, rgba(0, 229, 255, 0.1) 0%, transparent 60%);
+            bottom: 20%;
+            left: 10%;
+            animation-duration: 22s;
+            animation-delay: -2s;
+        }
 
-        @keyframes mesh-movement {
-            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-            50% { transform: translate(10%, 15%) scale(1.1) rotate(10deg); }
-            100% { transform: translate(-5%, -5%) scale(0.95) rotate(-5deg); }
-        }
+        @keyframes mesh-movement {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            50% { transform: translate(10%, 15%) scale(1.1) rotate(10deg); }
+            100% { transform: translate(-5%, -5%) scale(0.95) rotate(-5deg); }
+        }
 
-        /* Capa de textura sutil */
-        .overlay-texture {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
-            opacity: 0.15;
-            pointer-events: none;
-        }
+        /* Capa de textura sutil */
+        .overlay-texture {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+            opacity: 0.15;
+            pointer-events: none;
+        }
 
-        /* --- Custom Cursor --- */
-        #custom-cursor {
-            width: 12px;
-            height: 12px;
-            background: var(--accent-blue);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            box-shadow: 0 0 15px var(--accent-blue);
-            transition: transform 0.1s ease-out;
-            transform: translate(-50%, -50%);
-        }
+        /* --- Custom Cursor --- */
+        #custom-cursor {
+            width: 12px;
+            height: 12px;
+            background: var(--accent-blue);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            box-shadow: 0 0 15px var(--accent-blue);
+            transition: transform 0.1s ease-out;
+            transform: translate(-50%, -50%);
+        }
 
-        #cursor-follower {
-            width: 35px;
-            height: 35px;
-            border: 1px solid var(--accent-purple);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9998;
-            transition: transform 0.2s ease-out, opacity 0.3s;
-            transform: translate(-50%, -50%);
-        }
+        #cursor-follower {
+            width: 35px;
+            height: 35px;
+            border: 1px solid var(--accent-purple);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.2s ease-out, opacity 0.3s;
+            transform: translate(-50%, -50%);
+        }
 
-        /* --- WhatsApp Floating Button --- */
-        .whatsapp-float {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            background-color: var(--whatsapp-green);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-            z-index: 2000;
-            transition: var(--transition-smooth);
-            animation: pulse-green 2s infinite;
-        }
+        /* --- WhatsApp Floating Button --- */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--whatsapp-green);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            z-index: 2000;
+            transition: var(--transition-smooth);
+            animation: pulse-green 2s infinite;
+        }
 
-        @keyframes pulse-green {
-            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
-        }
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
 
-        /* --- Scroll Progress Bar --- */
-        #progress-container {
-            position: fixed;
-            top: 0;
-            z-index: 1000;
-            width: 100%;
-            height: 4px;
-            background: transparent;
-        }
+        /* --- Scroll Progress Bar --- */
+        #progress-container {
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+            height: 4px;
+            background: transparent;
+        }
 
-        #progress-bar {
-            height: 100%;
-            background: var(--accent-gradient);
-            width: 0%;
-            box-shadow: 0 0 15px var(--accent-purple);
-        }
+        #progress-bar {
+            height: 100%;
+            background: var(--accent-gradient);
+            width: 0%;
+            box-shadow: 0 0 15px var(--accent-purple);
+        }
 
-        /* --- Estilos de Secciones --- */
-        section {
-            padding: 140px 10%;
-            position: relative;
-            z-index: 1;
-        }
+        /* --- Estilos de Secciones --- */
+        section {
+            padding: 140px 10%;
+            position: relative;
+            z-index: 1;
+        }
 
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: var(--transition-smooth);
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: var(--transition-smooth);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-        .section-header {
-            margin-bottom: 80px;
-        }
+        .section-header {
+            margin-bottom: 80px;
+        }
 
-        .section-number {
-            color: var(--accent-purple);
-            font-family: 'Montserrat';
-            font-size: 1rem;
-            display: block;
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
+        .section-number {
+            color: var(--accent-purple);
+            font-family: 'Montserrat';
+            font-size: 1rem;
+            display: block;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
 
-        .section-title {
-            font-family: 'Montserrat';
-            font-size: clamp(2rem, 5vw, 3rem);
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            position: relative;
-            display: inline-block;
-        }
+        .section-title {
+            font-family: 'Montserrat';
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+            display: inline-block;
+        }
 
-        .section-title::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -10px;
-            width: 60px;
-            height: 4px;
-            background: var(--accent-gradient);
-            border-radius: 2px;
-        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 60px;
+            height: 4px;
+            background: var(--accent-gradient);
+            border-radius: 2px;
+        }
 
-        /* --- Hero Section --- */
-        header {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
+        /* --- Hero Section --- */
+        header {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
 
-        .hero-bg {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(5,3,7,0.4), rgba(5,3,7,0.7)), 
-                        url('https://images.unsplash.com/photo-1544690442-f04b8929759c?auto=format&fit=crop&q=80&w=2070') center/cover no-repeat;
-            transform: scale(1.1);
-            z-index: -1;
-        }
+        .hero-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(5,3,7,0.4), rgba(5,3,7,0.7)), 
+                        url('https://images.unsplash.com/photo-1544690442-f04b8929759c?auto=format&fit=crop&q=80&w=2070') center/cover no-repeat;
+            transform: scale(1.1);
+            z-index: -1;
+        }
 
-        .hero-content p {
-            font-size: 0.9rem;
-            color: var(--accent-blue);
-            font-weight: 600;
-            margin-bottom: 1rem;
-            letter-spacing: 8px;
-            text-shadow: 0 0 15px var(--accent-blue);
-        }
+        .hero-content p {
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            letter-spacing: 8px;
+            text-shadow: 0 0 15px var(--accent-blue);
+        }
 
-        .hero-content h1 {
-            font-family: 'Montserrat';
-            font-size: clamp(3rem, 10vw, 5.5rem);
-            margin-bottom: 2.5rem;
-            line-height: 0.95;
-            font-weight: 900;
-            text-transform: uppercase;
-            background: linear-gradient(to bottom, #fff 40%, var(--accent-purple) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+        .hero-content h1 {
+            font-family: 'Montserrat';
+            font-size: clamp(3rem, 10vw, 5.5rem);
+            margin-bottom: 2.5rem;
+            line-height: 0.95;
+            font-weight: 900;
+            text-transform: uppercase;
+            background: linear-gradient(to bottom, #fff 40%, var(--accent-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-        .cta-button {
-            display: inline-block;
-            padding: 20px 50px;
-            background: rgba(157, 80, 187, 0.1);
-            border: 1px solid rgba(157, 80, 187, 0.4);
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 0.85rem;
-            border-radius: 4px;
-            transition: var(--transition-smooth);
-            letter-spacing: 3px;
-            backdrop-filter: blur(8px);
-        }
+        .cta-button {
+            display: inline-block;
+            padding: 20px 50px;
+            background: rgba(157, 80, 187, 0.1);
+            border: 1px solid rgba(157, 80, 187, 0.4);
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.85rem;
+            border-radius: 4px;
+            transition: var(--transition-smooth);
+            letter-spacing: 3px;
+            backdrop-filter: blur(8px);
+        }
 
-        .cta-button:hover {
-            background: var(--accent-gradient);
-            border-color: var(--accent-blue);
-            transform: translateY(-5px);
-        }
+        .cta-button:hover {
+            background: var(--accent-gradient);
+            border-color: var(--accent-blue);
+            transform: translateY(-5px);
+        }
 
-        /* --- Grid & Cards --- */
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 40px;
-        }
+        /* --- Grid & Cards --- */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
 
-        .equipment-card {
-            background: var(--bg-card);
-            border: 1px solid rgba(157, 80, 187, 0.1);
-            border-radius: 12px;
-            overflow: hidden;
-            transition: var(--transition-smooth);
-            backdrop-filter: blur(20px);
-        }
+        .equipment-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(157, 80, 187, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: var(--transition-smooth);
+            backdrop-filter: blur(20px);
+        }
 
-        .equipment-card:hover {
-            transform: translateY(-15px);
-            border-color: var(--accent-purple);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
+        .equipment-card:hover {
+            transform: translateY(-15px);
+            border-color: var(--accent-purple);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
 
-        .img-wrapper {
-            width: 100%;
-            height: 320px;
-            overflow: hidden;
-        }
+        .img-wrapper {
+            width: 100%;
+            height: 320px;
+            overflow: hidden;
+        }
 
-        .equipment-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(100%) brightness(50%);
-            transition: 1s ease;
-        }
+        .equipment-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) brightness(50%);
+            transition: 1s ease;
+        }
 
-        .equipment-card:hover img {
-            filter: grayscale(20%) brightness(90%);
-            transform: scale(1.1);
-        }
+        .equipment-card:hover img {
+            filter: grayscale(20%) brightness(90%);
+            transform: scale(1.1);
+        }
 
-        .card-info {
-            padding: 35px;
-        }
+        .card-info {
+            padding: 35px;
+        }
 
-        .card-info h3 {
-            font-family: 'Montserrat';
-            color: var(--accent-blue);
-            margin-bottom: 25px;
-            font-size: 1.2rem;
-            text-transform: uppercase;
-        }
+        .card-info h3 {
+            font-family: 'Montserrat';
+            color: var(--accent-blue);
+            margin-bottom: 25px;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+        }
 
-        .spec-item {
-            margin-bottom: 18px;
-            border-left: 2px solid rgba(157, 80, 187, 0.3);
-            padding-left: 15px;
-        }
+        .spec-item {
+            margin-bottom: 18px;
+            border-left: 2px solid rgba(157, 80, 187, 0.3);
+            padding-left: 15px;
+        }
 
-        .spec-label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            color: #888;
-            letter-spacing: 2px;
-            margin-bottom: 4px;
-            display: block;
-        }
+        .spec-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: #888;
+            letter-spacing: 2px;
+            margin-bottom: 4px;
+            display: block;
+        }
 
-        .spec-value {
-            font-size: 0.95rem;
-            color: #eee;
-            font-weight: 600;
-        }
+        .spec-value {
+            font-size: 0.95rem;
+            color: #eee;
+            font-weight: 600;
+        }
 
-        /* --- Rider Table --- */
-        .rider-container {
-            width: 100%;
-            overflow-x: auto;
-            margin-top: 40px;
-            border-radius: 12px;
-            background: rgba(20, 15, 25, 0.4);
-            border: 1px solid rgba(157, 80, 187, 0.1);
-            backdrop-filter: blur(10px);
-        }
+        /* --- Rider Table --- */
+        .rider-container {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 40px;
+            border-radius: 12px;
+            background: rgba(20, 15, 25, 0.4);
+            border: 1px solid rgba(157, 80, 187, 0.1);
+            backdrop-filter: blur(10px);
+        }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 600px;
-        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
 
-        th, td {
-            text-align: left;
-            padding: 25px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
+        th, td {
+            text-align: left;
+            padding: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
 
-        th {
-            color: var(--accent-purple);
-            font-family: 'Montserrat';
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
+        th {
+            color: var(--accent-purple);
+            font-family: 'Montserrat';
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
 
-        tr:hover td {
-            background: rgba(157, 80, 187, 0.05);
-            color: var(--accent-blue);
-        }
+        tr:hover td {
+            background: rgba(157, 80, 187, 0.05);
+            color: var(--accent-blue);
+        }
 
-        /* --- Footer --- */
-        footer {
-            padding: 100px 10% 60px;
-            text-align: center;
-            border-top: 1px solid rgba(157, 80, 187, 0.1);
-            background: rgba(5, 3, 7, 0.8);
-        }
+        /* --- Footer --- */
+        footer {
+            padding: 100px 10% 60px;
+            text-align: center;
+            border-top: 1px solid rgba(157, 80, 187, 0.1);
+            background: rgba(5, 3, 7, 0.8);
+        }
 
-        .footer-logo {
-            font-family: 'Montserrat';
-            font-size: 2.5rem;
-            font-weight: 900;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 15px;
-            display: block;
-            letter-spacing: 10px;
-        }
+        .footer-logo {
+            font-family: 'Montserrat';
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            display: block;
+            letter-spacing: 10px;
+        }
 
-        .footer-email {
-            color: var(--accent-blue);
-            text-decoration: none;
-            font-weight: 600;
-            display: block;
-            margin-bottom: 50px;
-        }
+        .footer-email {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 50px;
+        }
 
-        @media (max-width: 768px) {
-            * { cursor: auto !important; }
-            #custom-cursor, #cursor-follower { display: none; }
-            section { padding: 80px 6%; }
-        }
-    </style>
+        @media (max-width: 768px) {
+            * { cursor: auto !important; }
+            #custom-cursor, #cursor-follower { display: none; }
+            section { padding: 80px 6%; }
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Fondo de Malla Animada 'Night Club' -->
-    <div class="night-club-mesh">
-        <div class="mesh-blob blob-1"></div>
-        <div class="mesh-blob blob-2"></div>
-        <div class="mesh-blob blob-3"></div>
-        <div class="mesh-blob blob-4"></div>
-    </div>
-    <div class="overlay-texture"></div>
+    <!-- Fondo de Malla Animada 'Night Club' -->
+    <div class="night-club-mesh">
+        <div class="mesh-blob blob-1"></div>
+        <div class="mesh-blob blob-2"></div>
+        <div class="mesh-blob blob-3"></div>
+        <div class="mesh-blob blob-4"></div>
+    </div>
+    <div class="overlay-texture"></div>
 
-    <!-- Elementos de UI -->
-    <div id="custom-cursor"></div>
-    <div id="cursor-follower"></div>
-    <div id="progress-container"><div id="progress-bar"></div></div>
+    <!-- Elementos de UI -->
+    <div id="custom-cursor"></div>
+    <div id="cursor-follower"></div>
+    <div id="progress-container"><div id="progress-bar"></div></div>
 
-    <!-- Botón de WhatsApp -->
-    <a href="https://wa.me/573208734659" class="whatsapp-float" target="_blank" rel="noopener noreferrer">
-        <i data-lucide="message-circle" style="width: 30px; height: 30px;"></i>
-    </a>
+    <!-- Botón de WhatsApp -->
+    <a href="https://wa.me/573208734659" class="whatsapp-float" target="_blank" rel="noopener noreferrer">
+        <i data-lucide="message-circle" style="width: 30px; height: 30px;"></i>
+    </a>
 
-    <!-- Hero Section -->
-    <header id="home">
-        <div class="hero-bg"></div>
-        <div class="hero-content reveal">
-            <p>SPIRAL WAVE SOUND ENGINE</p>
-            <h1>PRO DJ SET &<br>VISUAL EXPERIENCE</h1>
-            <a href="#audio" class="cta-button">EXPLORAR ARSENAL</a>
-        </div>
-    </header>
+    <!-- Hero Section -->
+    <header id="home">
+        <div class="hero-bg"></div>
+        <div class="hero-content reveal">
+            <p>SPIRAL WAVE SOUND ENGINE</p>
+            <h1>PRO DJ SET &<br>VISUAL EXPERIENCE</h1>
+            <a href="#audio" class="cta-button">EXPLORAR ARSENAL</a>
+        </div>
+    </header>
 
-    <!-- 01 / Audio Fidelity -->
-    <section id="audio">
-        <div class="section-header reveal">
-            <span class="section-number">01 / AUDIO FIDELITY</span>
-            <h2 class="section-title">Sonido High-End</h2>
-        </div>
+    <!-- 01 / Audio Fidelity -->
+    <section id="audio">
+        <div class="section-header reveal">
+            <span class="section-number">01 / AUDIO FIDELITY</span>
+            <h2 class="section-title">Sonido High-End</h2>
+        </div>
 
-        <div class="grid-container">
-            <div class="equipment-card reveal">
-                <div class="img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1545127398-14699f92334b?auto=format&fit=crop&q=80&w=800" alt="[Beta Three N12A]">
-                </div>
-                <div class="card-info">
-                    <h3>Beta Three N12A</h3>
-                    <div class="spec-item">
-                        <span class="spec-label">Arquitectura</span>
-                        <span class="spec-value">Activa con DSP</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-label">Definición</span>
-                        <span class="spec-value">Fidelity Pro</span>
-                    </div>
-                </div>
-            </div>
+        <div class="grid-container">
+            <div class="equipment-card reveal">
+                <div class="img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1545127398-14699f92334b?auto=format&fit=crop&q=80&w=800" alt="[Beta Three N12A]">
+                </div>
+                <div class="card-info">
+                    <h3>Beta Three N12A</h3>
+                    <div class="spec-item">
+                        <span class="spec-label">Arquitectura</span>
+                        <span class="spec-value">Activa con DSP</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Definición</span>
+                        <span class="spec-value">Fidelity Pro</span>
+                    </div>
+                </div>
+            </div>
 
-            <div class="equipment-card reveal">
-                <div class="img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1557683316-973673baf926?auto=format&fit=crop&q=80&w=800" alt="[Subwoofer EB118A]">
-                </div>
-                <div class="card-info">
-                    <h3>Subwoofer EB118A</h3>
-                    <div class="spec-item">
-                        <span class="spec-label">Potencia</span>
-                        <span class="spec-value">Bajos de 18"</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-label">Impacto</span>
-                        <span class="spec-value">Deep Bass 35Hz</span>
-                    </div>
-                </div>
-            </div>
+            <div class="equipment-card reveal">
+                <div class="img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1557683316-973673baf926?auto=format&fit=crop&q=80&w=800" alt="[Subwoofer EB118A]">
+                </div>
+                <div class="card-info">
+                    <h3>Subwoofer EB118A</h3>
+                    <div class="spec-item">
+                        <span class="spec-label">Potencia</span>
+                        <span class="spec-value">Bajos de 18"</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Impacto</span>
+                        <span class="spec-value">Deep Bass 35Hz</span>
+                    </div>
+                </div>
+            </div>
 
-            <div class="equipment-card reveal">
-                <div class="img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&q=80&w=800" alt="[Consola Pioneer]">
-                </div>
-                <div class="card-info">
-                    <h3>Pioneer Ecosystem</h3>
-                    <div class="spec-item">
-                        <span class="spec-label">Consola</span>
-                        <span class="spec-value">DDJ Series Pro</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-label">Software</span>
-                        <span class="spec-value">Rekordbox Engine</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+            <div class="equipment-card reveal">
+                <div class="img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&q=80&w=800" alt="[Consola Pioneer]">
+                </div>
+                <div class="card-info">
+                    <h3>Pioneer Ecosystem</h3>
+                    <div class="spec-item">
+                        <span class="spec-label">Consola</span>
+                        <span class="spec-value">DDJ Series Pro</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Software</span>
+                        <span class="spec-value">Rekordbox Engine</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <!-- 02 / Visual Engine -->
-    <section id="visuals">
-        <div class="section-header reveal">
-            <span class="section-number">02 / VISUAL ENGINE</span>
-            <h2 class="section-title">Ingeniería Visual</h2>
-        </div>
+    <!-- 02 / Visual Engine -->
+    <section id="visuals">
+        <div class="section-header reveal">
+            <span class="section-number">02 / VISUAL ENGINE</span>
+            <h2 class="section-title">Ingeniería Visual</h2>
+        </div>
 
-        <div class="grid-container">
-            <div class="equipment-card reveal">
-                <div class="img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&q=80&w=800" alt="[Láser PL5000]">
-                </div>
-                <div class="card-info">
-                    <h3>Láser PL5000 RGB</h3>
-                    <div class="spec-item">
-                        <span class="spec-label">Tecnología</span>
-                        <span class="spec-value">RGB Full Color</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-label">Efectos</span>
-                        <span class="spec-value">Beam & Mapping</span>
-                    </div>
-                </div>
-            </div>
+        <div class="grid-container">
+            <div class="equipment-card reveal">
+                <div class="img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&q=80&w=800" alt="[Láser PL5000]">
+                </div>
+                <div class="card-info">
+                    <h3>Láser PL5000 RGB</h3>
+                    <div class="spec-item">
+                        <span class="spec-label">Tecnología</span>
+                        <span class="spec-value">RGB Full Color</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Efectos</span>
+                        <span class="spec-value">Beam & Mapping</span>
+                    </div>
+                </div>
+            </div>
 
-            <div class="equipment-card reveal">
-                <div class="img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=800" alt="[Atmósfera Pro]">
-                </div>
-                <div class="card-info">
-                    <h3>Atmósfera Pro</h3>
-                    <div class="spec-item">
-                        <span class="spec-label">FX</span>
-                        <span class="spec-value">Fog Machine de Alta Densidad</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-label">Inmersión</span>
-                        <span class="spec-value">Rayos de Luz 3D</span>
-                    </div>
-                </div>
-            </div>
+            <div class="equipment-card reveal">
+                <div class="img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=800" alt="[Atmósfera Pro]">
+                </div>
+                <div class="card-info">
+                    <h3>Atmósfera Pro</h3>
+                    <div class="spec-item">
+                        <span class="spec-label">FX</span>
+                        <span class="spec-value">Fog Machine de Alta Densidad</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Inmersión</span>
+                        <span class="spec-value">Rayos de Luz 3D</span>
+                    </div>
+                </div>
+            </div>
 
-            <div class="equipment-card reveal">
-                <div class="img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=800" alt="[Setup DJ]">
-                </div>
-                <div class="card-info">
-                    <h3>Setup Industrial</h3>
-                    <div class="spec-item">
-                        <span class="spec-label">Booth</span>
-                        <span class="spec-value">Mesa DJ Reforzada</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-label">Soportes</span>
-                        <span class="spec-value">Elevación Pro</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+            <div class="equipment-card reveal">
+                <div class="img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=800" alt="[Setup DJ]">
+                </div>
+                <div class="card-info">
+                    <h3>Setup Industrial</h3>
+                    <div class="spec-item">
+                        <span class="spec-label">Booth</span>
+                        <span class="spec-value">Mesa DJ Reforzada</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Soportes</span>
+                        <span class="spec-value">Elevación Pro</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <!-- 03 / Hardware Adicional -->
-    <section id="hardware-extra">
-        <div class="section-header reveal">
-            <span class="section-number">03 / HARDWARE ADICIONAL</span>
-            <h2 class="section-title">Microfonía & Control</h2>
-        </div>
+    <!-- 03 / Hardware Adicional -->
+    <section id="hardware-extra">
+        <div class="section-header reveal">
+            <span class="section-number">03 / HARDWARE ADICIONAL</span>
+            <h2 class="section-title">Microfonía & Control</h2>
+        </div>
 
-        <div class="grid-container">
-            <div class="equipment-card reveal">
-                <div class="img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1558403194-611308249627?auto=format&fit=crop&q=80&w=800" alt="[Beta 58A]">
-                </div>
-                <div class="card-info">
-                    <h3>Beta 58A High Output</h3>
-                    <div class="spec-item">
-                        <span class="spec-label">Tipo</span>
-                        <span class="spec-value">Supercardioide Dinámico</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-label">Uso</span>
-                        <span class="spec-value">Voz Pro / Lead Vocals</span>
-                    </div>
-                </div>
-            </div>
+        <div class="grid-container">
+            <div class="equipment-card reveal">
+                <div class="img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1558403194-611308249627?auto=format&fit=crop&q=80&w=800" alt="[Beta 58A]">
+                </div>
+                <div class="card-info">
+                    <h3>Beta 58A High Output</h3>
+                    <div class="spec-item">
+                        <span class="spec-label">Tipo</span>
+                        <span class="spec-value">Supercardioide Dinámico</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Uso</span>
+                        <span class="spec-value">Voz Pro / Lead Vocals</span>
+                    </div>
+                </div>
+            </div>
 
-            <div class="equipment-card reveal">
-                <div class="img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1574169207511-e21a21c8075a?auto=format&fit=crop&q=80&w=800" alt="[DMX Control]">
-                </div>
-                <div class="card-info">
-                    <h3>DMX Control Station</h3>
-                    <div class="spec-item">
-                        <span class="spec-label">Programación</span>
-                        <span class="spec-value">Escenas y Chase Banks</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-label">Precisión</span>
-                        <span class="spec-value">Sincronización Rítmica</span>
-                    </div>
-                </div>
-            </div>
+            <div class="equipment-card reveal">
+                <div class="img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1574169207511-e21a21c8075a?auto=format&fit=crop&q=80&w=800" alt="[DMX Control]">
+                </div>
+                <div class="card-info">
+                    <h3>DMX Control Station</h3>
+                    <div class="spec-item">
+                        <span class="spec-label">Programación</span>
+                        <span class="spec-value">Escenas y Chase Banks</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Precisión</span>
+                        <span class="spec-value">Sincronización Rítmica</span>
+                    </div>
+                </div>
+            </div>
 
-            <div class="equipment-card reveal">
-                <div class="img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1505842465776-3b4953ca4f44?auto=format&fit=crop&q=80&w=800" alt="[Strobe FX]">
-                </div>
-                <div class="card-info">
-                    <h3>Strobe & Party FX</h3>
-                    <div class="spec-item">
-                        <span class="spec-label">Modelos</span>
-                        <span class="spec-value">PL18 Party + Room Strobe</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-label">Impacto</span>
-                        <span class="spec-value">Frecuencia Variable</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+            <div class="equipment-card reveal">
+                <div class="img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1505842465776-3b4953ca4f44?auto=format&fit=crop&q=80&w=800" alt="[Strobe FX]">
+                </div>
+                <div class="card-info">
+                    <h3>Strobe & Party FX</h3>
+                    <div class="spec-item">
+                        <span class="spec-label">Modelos</span>
+                        <span class="spec-value">PL18 Party + Room Strobe</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Impacto</span>
+                        <span class="spec-value">Frecuencia Variable</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <!-- 04 / Technical Rider -->
-    <section id="rider">
-        <div class="section-header reveal">
-            <span class="section-number">04 / TECHNICAL RIDER</span>
-            <h2 class="section-title">Resumen Técnico</h2>
-        </div>
+    <!-- 04 / Technical Rider -->
+    <section id="rider">
+        <div class="section-header reveal">
+            <span class="section-number">04 / TECHNICAL RIDER</span>
+            <h2 class="section-title">Resumen Técnico</h2>
+        </div>
 
-        <div class="rider-container reveal">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Sistema</th>
-                        <th>Configuración</th>
-                        <th>Certificación</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>AUDIO MASTER</strong></td>
-                        <td>Beta Three N-Series / DSP Active Tuning</td>
-                        <td>CALIDAD PRO</td>
-                    </tr>
-                    <tr>
-                        <td><strong>VISUAL FX</strong></td>
-                        <td>Láser RGB + Fog Machine + Control DMX</td>
-                        <td>ESTÁNDAR STAGE</td>
-                    </tr>
-                    <tr>
-                        <td><strong>HARDWARE EXTRA</strong></td>
-                        <td>Shure Beta 58A + Controlers DMX + Strobes</td>
-                        <td>PROFESIONAL</td>
-                    </tr>
-                    <tr>
-                        <td><strong>SOPORTES</strong></td>
-                        <td>Mesa DJ Ergonómica + Stands Heavy Duty</td>
-                        <td>SEGURO PRO</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
+        <div class="rider-container reveal">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sistema</th>
+                        <th>Configuración</th>
+                        <th>Certificación</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>AUDIO MASTER</strong></td>
+                        <td>Beta Three N-Series / DSP Active Tuning</td>
+                        <td>CALIDAD PRO</td>
+                    </tr>
+                    <tr>
+                        <td><strong>VISUAL FX</strong></td>
+                        <td>Láser RGB + Fog Machine + Control DMX</td>
+                        <td>ESTÁNDAR STAGE</td>
+                    </tr>
+                    <tr>
+                        <td><strong>HARDWARE EXTRA</strong></td>
+                        <td>Shure Beta 58A + Controlers DMX + Strobes</td>
+                        <td>PROFESIONAL</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SOPORTES</strong></td>
+                        <td>Mesa DJ Ergonómica + Stands Heavy Duty</td>
+                        <td>SEGURO PRO</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
 
-    <footer>
-        <span class="footer-logo">SPIRAL WAVE</span>
-        <a href="mailto:spiraldefuego@gmail.com" class="footer-email">spiraldefuego@gmail.com</a>
-        <p class="copyright">© 2026 - INGENIERÍA ACÚSTICA PARA EVENTOS</p>
-    </footer>
+    <footer>
+        <span class="footer-logo">SPIRAL WAVE</span>
+        <a href="mailto:spiraldefuego@gmail.com" class="footer-email">spiraldefuego@gmail.com</a>
+        <p class="copyright">© 2026 - INGENIERÍA ACÚSTICA PARA EVENTOS</p>
+    </footer>
 
-    <script>
-        // Inicializar Iconos
-        lucide.createIcons();
+    <script>
+        // Inicializar Iconos
+        lucide.createIcons();
 
-        // Cursor Personalizado
-        const cursor = document.getElementById('custom-cursor');
-        const follower = document.getElementById('cursor-follower');
-        
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            follower.style.left = e.clientX + 'px';
-            follower.style.top = e.clientY + 'px';
-        });
+        // Cursor Personalizado
+        const cursor = document.getElementById('custom-cursor');
+        const follower = document.getElementById('cursor-follower');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            follower.style.left = e.clientX + 'px';
+            follower.style.top = e.clientY + 'px';
+        });
 
-        // Interacciones del cursor
-        document.querySelectorAll('a, button, .equipment-card, tr').forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursor.style.transform = 'translate(-50%, -50%) scale(2)';
-                follower.style.transform = 'translate(-50%, -50%) scale(1.5)';
-            });
-            el.addEventListener('mouseleave', () => {
-                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-                follower.style.transform = 'translate(-50%, -50%) scale(1)';
-            });
-        });
+        // Interacciones del cursor
+        document.querySelectorAll('a, button, .equipment-card, tr').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(2)';
+                follower.style.transform = 'translate(-50%, -50%) scale(1.5)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+                follower.style.transform = 'translate(-50%, -50%) scale(1)';
+            });
+        });
 
-        // Barra de Progreso y Revelado al Scroll
-        const progressBar = document.getElementById('progress-bar');
-        
-        function handleScroll() {
-            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            const heightDoc = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            progressBar.style.width = (winScroll / heightDoc) * 100 + "%";
+        // Barra de Progreso y Revelado al Scroll
+        const progressBar = document.getElementById('progress-bar');
+        
+        function handleScroll() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const heightDoc = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            progressBar.style.width = (winScroll / heightDoc) * 100 + "%";
 
-            // Revelar secciones
-            const reveals = document.querySelectorAll('.reveal');
-            reveals.forEach(el => {
-                const rect = el.getBoundingClientRect();
-                if (rect.top < window.innerHeight * 0.9) {
-                    el.classList.add('active');
-                }
-            });
-        }
+            // Revelar secciones
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.9) {
+                    el.classList.add('active');
+                }
+            });
+        }
 
-        window.addEventListener('scroll', handleScroll);
-        window.onload = handleScroll;
-    </script>
+        window.addEventListener('scroll', handleScroll);
+        window.onload = handleScroll;
+    </script>
 </body>
 </html>
