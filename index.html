@@ -220,8 +220,8 @@
             z-index: 15;
         }
 
-        /* Efecto Hover para Desktop y Clase Active para Mobile */
-        .equipment-card:hover, .equipment-card.is-viewed {
+        /* Clase de activación para hover y móvil (vía JS) */
+        .equipment-card:hover, .equipment-card.is-active {
             transform: translateY(-10px);
             border-color: var(--accent-purple);
             box-shadow: 0 15px 40px rgba(0,0,0,0.6);
@@ -246,7 +246,7 @@
             transition: var(--transition-smooth);
         }
 
-        .equipment-card:hover img, .equipment-card.is-viewed img {
+        .equipment-card:hover img, .equipment-card.is-active img {
             filter: grayscale(0%) brightness(110%);
             transform: scale(1.08);
         }
@@ -321,8 +321,8 @@
     <div id="cursor-follower"></div>
     <div id="progress-container"><div id="progress-bar"></div></div>
 
-    <!-- WhatsApp: Abre automáticamente la app o web -->
-    <a href="https://wa.me/573208734659" class="whatsapp-float" target="_blank" rel="noopener">
+    <!-- WhatsApp: Enlace directo optimizado para móviles -->
+    <a href="https://api.whatsapp.com/send?phone=573208734659" class="whatsapp-float" target="_blank" rel="noopener">
         <i data-lucide="message-circle"></i>
     </a>
 
@@ -472,7 +472,7 @@
 
     <footer>
         <span class="footer-logo">SPIRAL WAVE</span>
-        <!-- Mailto: se abre automáticamente en el cliente de correo del navegador -->
+        <!-- Mailto optimizado para apertura automática -->
         <a href="mailto:spiraldefuego@gmail.com?subject=Solicitud de Información - Spiral Wave&body=Hola equipo de Spiral Wave, me gustaría recibir más información sobre sus servicios." class="footer-email">
             spiraldefuego@gmail.com
         </a>
@@ -608,22 +608,22 @@
             handleTrail(touch.clientX, touch.clientY);
         }, { passive: true });
 
-        // --- EFECTO "HOVER" AUTOMÁTICO PARA MÓVILES ---
-        // Al desplazar en el móvil, el cuadro que esté en el centro se activa solo
-        const mobileHoverObserver = new IntersectionObserver((entries) => {
+        // --- EFECTO AUTO-HOVER EN MÓVIL AL DESPLAZAR ---
+        // Usamos Intersection Observer para detectar el elemento central en pantalla
+        const cardObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-viewed');
+                if (entry.isIntersecting && entry.intersectionRatio >= 0.6) {
+                    entry.target.classList.add('is-active');
                 } else {
-                    entry.target.classList.remove('is-viewed');
+                    entry.target.classList.remove('is-active');
                 }
             });
         }, {
-            threshold: 0.6 // Se activa cuando el 60% es visible
+            threshold: [0.6] // Activar cuando el 60% del elemento sea visible
         });
 
         document.querySelectorAll('.equipment-card').forEach(card => {
-            mobileHoverObserver.observe(card);
+            cardObserver.observe(card);
         });
 
         // Scroll Reveal Progress y Velocidad
