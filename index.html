@@ -15,8 +15,7 @@
 
     <style>
         :root {
-            /* Colores de la paleta Night Club */
-            --bg-dark: #050307; /* Negro profundo suavizado */
+            --bg-dark: #050307; 
             --mesh-blue: #004d7a;
             --mesh-purple: #2d1b4d;
             --mesh-neon: #00e5ff;
@@ -34,7 +33,10 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none; 
+        }
+
+        @media (min-width: 769px) {
+            body { cursor: none; }
         }
 
         html {
@@ -49,117 +51,98 @@
             line-height: 1.6;
         }
 
-        /* --- Fondo de Malla Animada (Mesh Gradient) --- */
-        .night-club-mesh {
+        /* --- Canvas de Viaje al Fondo (NUEVO) --- */
+        #warp-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -2;
+            z-index: -3; /* Detrás de todo */
             background: var(--bg-dark);
-            overflow: hidden;
         }
 
-        /* Esferas de color difuminadas para crear el efecto de malla */
+        /* --- Canvas de Estela del Cursor --- */
+        #trail-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5; 
+            pointer-events: none; 
+        }
+
+        /* --- Fondo Mesh (Capas de color) --- */
+        .night-club-mesh {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
         .mesh-blob {
             position: absolute;
             width: 80vmax;
             height: 80vmax;
             border-radius: 50%;
             filter: blur(120px);
-            opacity: 0.5;
+            opacity: 0.3;
             animation: mesh-movement 20s infinite alternate ease-in-out;
-            pointer-events: none;
         }
 
-        .blob-1 {
-            background: radial-gradient(circle, var(--mesh-purple) 0%, transparent 70%);
-            top: -20%;
-            left: -10%;
-        }
-
-        .blob-2 {
-            background: radial-gradient(circle, var(--mesh-blue) 0%, transparent 70%);
-            bottom: -20%;
-            right: -10%;
-            animation-duration: 25s;
-            animation-delay: -5s;
-        }
-
-        .blob-3 {
-            background: radial-gradient(circle, rgba(157, 80, 187, 0.2) 0%, transparent 60%);
-            top: 30%;
-            right: 20%;
-            animation-duration: 18s;
-        }
-
-        .blob-4 {
-            background: radial-gradient(circle, rgba(0, 229, 255, 0.1) 0%, transparent 60%);
-            bottom: 20%;
-            left: 10%;
-            animation-duration: 22s;
-            animation-delay: -2s;
-        }
-
+        .blob-1 { background: radial-gradient(circle, var(--mesh-purple) 0%, transparent 70%); top: -20%; left: -10%; }
+        .blob-2 { background: radial-gradient(circle, var(--mesh-blue) 0%, transparent 70%); bottom: -20%; right: -10%; animation-duration: 25s; }
+        
         @keyframes mesh-movement {
-            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-            50% { transform: translate(10%, 15%) scale(1.1) rotate(10deg); }
-            100% { transform: translate(-5%, -5%) scale(0.95) rotate(-5deg); }
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(10%, 10%) scale(1.1); }
         }
 
-        /* Capa de textura sutil */
         .overlay-texture {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1;
             background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
-            opacity: 0.15;
+            opacity: 0.1;
             pointer-events: none;
         }
 
-        /* --- Custom Cursor --- */
+        /* --- UI Elements --- */
         #custom-cursor {
-            width: 12px;
-            height: 12px;
+            width: 12px; height: 12px;
             background: var(--accent-blue);
             border-radius: 50%;
             position: fixed;
             pointer-events: none;
             z-index: 9999;
             box-shadow: 0 0 15px var(--accent-blue);
-            transition: transform 0.1s ease-out;
             transform: translate(-50%, -50%);
         }
 
         #cursor-follower {
-            width: 35px;
-            height: 35px;
+            width: 35px; height: 35px;
             border: 1px solid var(--accent-purple);
             border-radius: 50%;
             position: fixed;
             pointer-events: none;
             z-index: 9998;
-            transition: transform 0.2s ease-out, opacity 0.3s;
+            transition: transform 0.2s ease-out;
             transform: translate(-50%, -50%);
         }
 
-        /* --- WhatsApp Floating Button --- */
         .whatsapp-float {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
+            bottom: 30px; right: 30px;
+            width: 60px; height: 60px;
             background-color: var(--whatsapp-green);
             color: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
             z-index: 2000;
-            transition: var(--transition-smooth);
             animation: pulse-green 2s infinite;
         }
 
@@ -169,14 +152,10 @@
             100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
         }
 
-        /* --- Scroll Progress Bar --- */
         #progress-container {
             position: fixed;
-            top: 0;
-            z-index: 1000;
-            width: 100%;
-            height: 4px;
-            background: transparent;
+            top: 0; z-index: 1000;
+            width: 100%; height: 4px;
         }
 
         #progress-bar {
@@ -186,16 +165,15 @@
             box-shadow: 0 0 15px var(--accent-purple);
         }
 
-        /* --- Estilos de Secciones --- */
         section {
-            padding: 140px 10%;
+            padding: 100px 10%;
             position: relative;
-            z-index: 1;
+            z-index: 10;
         }
 
         .reveal {
             opacity: 0;
-            transform: translateY(40px);
+            transform: translateY(30px);
             transition: var(--transition-smooth);
         }
         .reveal.active {
@@ -203,501 +181,298 @@
             transform: translateY(0);
         }
 
-        .section-header {
-            margin-bottom: 80px;
-        }
-
+        .section-header { margin-bottom: 60px; }
         .section-number {
             color: var(--accent-purple);
             font-family: 'Montserrat';
-            font-size: 1rem;
+            font-size: 0.9rem;
             display: block;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             font-weight: bold;
+            letter-spacing: 2px;
         }
 
         .section-title {
             font-family: 'Montserrat';
-            font-size: clamp(2rem, 5vw, 3rem);
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
             font-weight: 900;
             text-transform: uppercase;
             letter-spacing: 3px;
-            position: relative;
-            display: inline-block;
         }
 
-        .section-title::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -10px;
-            width: 60px;
-            height: 4px;
-            background: var(--accent-gradient);
-            border-radius: 2px;
-        }
-
-        /* --- Hero Section --- */
-        header {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-bg {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(5,3,7,0.4), rgba(5,3,7,0.7)), 
-                        url('https://images.unsplash.com/photo-1544690442-f04b8929759c?auto=format&fit=crop&q=80&w=2070') center/cover no-repeat;
-            transform: scale(1.1);
-            z-index: -1;
-        }
-
-        .hero-content p {
-            font-size: 0.9rem;
-            color: var(--accent-blue);
-            font-weight: 600;
-            margin-bottom: 1rem;
-            letter-spacing: 8px;
-            text-shadow: 0 0 15px var(--accent-blue);
-        }
-
-        .hero-content h1 {
-            font-family: 'Montserrat';
-            font-size: clamp(3rem, 10vw, 5.5rem);
-            margin-bottom: 2.5rem;
-            line-height: 0.95;
-            font-weight: 900;
-            text-transform: uppercase;
-            background: linear-gradient(to bottom, #fff 40%, var(--accent-purple) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 20px 50px;
-            background: rgba(157, 80, 187, 0.1);
-            border: 1px solid rgba(157, 80, 187, 0.4);
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 0.85rem;
-            border-radius: 4px;
-            transition: var(--transition-smooth);
-            letter-spacing: 3px;
-            backdrop-filter: blur(8px);
-        }
-
-        .cta-button:hover {
-            background: var(--accent-gradient);
-            border-color: var(--accent-blue);
-            transform: translateY(-5px);
-        }
-
-        /* --- Grid & Cards --- */
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
         }
 
         .equipment-card {
             background: var(--bg-card);
             border: 1px solid rgba(157, 80, 187, 0.1);
-            border-radius: 12px;
+            border-radius: 15px;
             overflow: hidden;
             transition: var(--transition-smooth);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(15px);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 15;
         }
 
         .equipment-card:hover {
-            transform: translateY(-15px);
+            transform: translateY(-10px);
             border-color: var(--accent-purple);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
         }
 
         .img-wrapper {
             width: 100%;
-            height: 320px;
+            height: 300px;
+            background: rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
             overflow: hidden;
         }
 
         .equipment-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(100%) brightness(50%);
-            transition: 1s ease;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            filter: grayscale(40%) brightness(80%);
+            transition: var(--transition-smooth);
         }
 
         .equipment-card:hover img {
-            filter: grayscale(20%) brightness(90%);
-            transform: scale(1.1);
+            filter: grayscale(0%) brightness(110%);
+            transform: scale(1.08);
         }
 
-        .card-info {
-            padding: 35px;
-        }
-
+        .card-info { padding: 25px; }
         .card-info h3 {
             font-family: 'Montserrat';
             color: var(--accent-blue);
-            margin-bottom: 25px;
-            font-size: 1.2rem;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
             text-transform: uppercase;
         }
 
         .spec-item {
-            margin-bottom: 18px;
-            border-left: 2px solid rgba(157, 80, 187, 0.3);
-            padding-left: 15px;
+            margin-bottom: 15px;
+            border-left: 2px solid var(--accent-purple);
+            padding-left: 12px;
         }
 
-        .spec-label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            color: #888;
-            letter-spacing: 2px;
-            margin-bottom: 4px;
-            display: block;
-        }
+        .spec-label { font-size: 0.65rem; text-transform: uppercase; color: #aaa; letter-spacing: 1.5px; display: block; }
+        .spec-value { font-size: 0.9rem; color: #fff; font-weight: 600; }
 
-        .spec-value {
-            font-size: 0.95rem;
-            color: #eee;
-            font-weight: 600;
-        }
-
-        /* --- Rider Table --- */
         .rider-container {
             width: 100%;
             overflow-x: auto;
             margin-top: 40px;
-            border-radius: 12px;
+            border-radius: 15px;
             background: rgba(20, 15, 25, 0.4);
             border: 1px solid rgba(157, 80, 187, 0.1);
-            backdrop-filter: blur(10px);
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 600px;
-        }
+        table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        th, td { text-align: left; padding: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        th { color: var(--accent-purple); font-family: 'Montserrat'; font-size: 0.7rem; text-transform: uppercase; }
 
-        th, td {
-            text-align: left;
-            padding: 25px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        th {
-            color: var(--accent-purple);
-            font-family: 'Montserrat';
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        tr:hover td {
-            background: rgba(157, 80, 187, 0.05);
-            color: var(--accent-blue);
-        }
-
-        /* --- Footer --- */
-        footer {
-            padding: 100px 10% 60px;
-            text-align: center;
-            border-top: 1px solid rgba(157, 80, 187, 0.1);
-            background: rgba(5, 3, 7, 0.8);
-        }
-
-        .footer-logo {
-            font-family: 'Montserrat';
-            font-size: 2.5rem;
-            font-weight: 900;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 15px;
-            display: block;
-            letter-spacing: 10px;
-        }
-
+        footer { padding: 80px 10% 40px; text-align: center; border-top: 1px solid rgba(157, 80, 187, 0.1); position: relative; z-index: 20; }
+        .footer-logo { font-family: 'Montserrat'; font-size: 2rem; font-weight: 900; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 5px; margin-bottom: 10px; display: block; }
+        
         .footer-email {
-            color: var(--accent-blue);
-            text-decoration: none;
-            font-weight: 600;
-            display: block;
-            margin-bottom: 50px;
+            color: var(--accent-blue); 
+            text-decoration: none; 
+            font-weight: 700;
+            transition: var(--transition-smooth);
+        }
+
+        .footer-email:hover {
+            color: var(--accent-purple);
+            text-shadow: 0 0 10px rgba(157, 80, 187, 0.5);
         }
 
         @media (max-width: 768px) {
             * { cursor: auto !important; }
             #custom-cursor, #cursor-follower { display: none; }
-            section { padding: 80px 6%; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Fondo de Malla Animada 'Night Club' -->
+    <!-- Canvas para el viaje infinito al fondo -->
+    <canvas id="warp-canvas"></canvas>
+
     <div class="night-club-mesh">
         <div class="mesh-blob blob-1"></div>
         <div class="mesh-blob blob-2"></div>
-        <div class="mesh-blob blob-3"></div>
-        <div class="mesh-blob blob-4"></div>
     </div>
     <div class="overlay-texture"></div>
 
-    <!-- Elementos de UI -->
+    <!-- Canvas para el rastro de círculos -->
+    <canvas id="trail-canvas"></canvas>
+
     <div id="custom-cursor"></div>
     <div id="cursor-follower"></div>
     <div id="progress-container"><div id="progress-bar"></div></div>
 
-    <!-- Botón de WhatsApp -->
-    <a href="https://wa.me/573208734659" class="whatsapp-float" target="_blank" rel="noopener noreferrer">
-        <i data-lucide="message-circle" style="width: 30px; height: 30px;"></i>
+    <!-- Contacto Flotante -->
+    <a href="https://wa.me/573208734659" class="whatsapp-float" target="_blank">
+        <i data-lucide="message-circle"></i>
     </a>
 
-    <!-- Hero Section -->
-    <header id="home">
-        <div class="hero-bg"></div>
-        <div class="hero-content reveal">
-            <p>SPIRAL WAVE SOUND ENGINE</p>
-            <h1>PRO DJ SET &<br>VISUAL EXPERIENCE</h1>
-            <a href="#audio" class="cta-button">EXPLORAR ARSENAL</a>
+    <!-- Cabecera Hero -->
+    <header id="home" style="position: relative; z-index: 20; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+        <div style="position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(rgba(0,0,0,0.6), var(--bg-dark)), url('https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=2070') center/cover; z-index:-1;"></div>
+        <div class="reveal" style="text-align: center;">
+            <p style="color: var(--accent-blue); letter-spacing: 10px; font-weight: 700; margin-bottom: 20px;">SPIRAL WAVE</p>
+            <h1 style="font-family: 'Montserrat'; font-size: clamp(2.5rem, 8vw, 5rem); line-height: 1; font-weight: 900; margin-bottom: 40px;">SOUND ENGINE<br><span style="color: var(--accent-purple);">GALLERY</span></h1>
+            <a href="#audio" style="text-decoration: none; color: #fff; border: 1px solid var(--accent-blue); padding: 15px 40px; border-radius: 5px; font-weight: 700; letter-spacing: 2px; transition: 0.3s;" onmouseover="this.style.background='var(--accent-blue)'; this.style.color='#000'" onmouseout="this.style.background='transparent'; this.style.color='#fff'">VER EQUIPO</a>
         </div>
     </header>
 
-    <!-- 01 / Audio Fidelity -->
+    <!-- Sección 01: Audio -->
     <section id="audio">
         <div class="section-header reveal">
-            <span class="section-number">01 / AUDIO FIDELITY</span>
-            <h2 class="section-title">Sonido High-End</h2>
+            <span class="section-number">01 / SONIDO DE ALTA GAMA</span>
+            <h2 class="section-title">Audio Fidelity</h2>
         </div>
 
         <div class="grid-container">
+            <!-- [Imagen de Cabina Beta Three] -->
             <div class="equipment-card reveal">
-                <div class="img-wrapper">
-                    <!-- Imagen de la cabina reemplazada por archivo local -->
-                    <img src="CABINA.png" alt="[Beta Three N12A]">
-                </div>
+                <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1hMa4dBLom8eFKZMW7YPSSJZ5OEtV4y3m" alt="Cabina Beta Three"></div>
                 <div class="card-info">
                     <h3>Beta Three N12A</h3>
-                    <div class="spec-item">
-                        <span class="spec-label">Arquitectura</span>
-                        <span class="spec-value">Activa con DSP</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-label">Definición</span>
-                        <span class="spec-value">Fidelity Pro</span>
-                    </div>
+                    <div class="spec-item"><span class="spec-label">Tipo</span><span class="spec-value">Cabina Activa Profesional</span></div>
+                    <div class="spec-item"><span class="spec-label">Audio</span><span class="spec-value">Fidelidad N-Series DSP</span></div>
                 </div>
             </div>
-
+            <!-- [Imagen de Subwoofer EB118A] -->
             <div class="equipment-card reveal">
-                <div class="img-wrapper">
-                    <!-- Imagen del bajo reemplazada por archivo local -->
-                    <img src="Bajo.png" alt="[Subwoofer EB118A]">
-                </div>
+                <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1bqRpMSlyFxyydr2XbVmxcjrYHUo2x85p" alt="Subwoofer EB118A"></div>
                 <div class="card-info">
                     <h3>Subwoofer EB118A</h3>
-                    <div class="spec-item">
-                        <span class="spec-label">Potencia</span>
-                        <span class="spec-value">Bajos de 18"</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-label">Impacto</span>
-                        <span class="spec-value">Deep Bass 35Hz</span>
-                    </div>
+                    <div class="spec-item"><span class="spec-label">Potencia</span><span class="spec-value">Driver de 18 pulgadas</span></div>
+                    <div class="spec-item"><span class="spec-label">Frecuencia</span><span class="spec-value">Bajos profundos Certificados</span></div>
                 </div>
             </div>
-
+            <!-- [Imagen de Tornamesa DJ] -->
             <div class="equipment-card reveal">
-                <div class="img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&q=80&w=800" alt="[Consola Pioneer]">
-                </div>
+                <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1rNdOrUXL7F56Ko2HKS_pSXJiX1P5BZ0U" alt="Tornamesa DJ"></div>
                 <div class="card-info">
-                    <h3>Pioneer Ecosystem</h3>
-                    <div class="spec-item">
-                        <span class="spec-label">Consola</span>
-                        <span class="spec-value">DDJ Series Pro</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-label">Software</span>
-                        <span class="spec-value">Rekordbox Engine</span>
-                    </div>
+                    <h3>Pioneer Engine</h3>
+                    <div class="spec-item"><span class="spec-label">Interface</span><span class="spec-value">Control Digital Táctil</span></div>
+                    <div class="spec-item"><span class="spec-label">Ecosistema</span><span class="spec-value">Soporte Rekordbox Link</span></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 02 / Visual Engine -->
+    <!-- Sección 02: Visuals -->
     <section id="visuals">
         <div class="section-header reveal">
-            <span class="section-number">02 / VISUAL ENGINE</span>
-            <h2 class="section-title">Ingeniería Visual</h2>
+            <span class="section-number">02 / EXPERIENCIA INMERSIVA</span>
+            <h2 class="section-title">Visual Engine</h2>
         </div>
 
         <div class="grid-container">
+            <!-- [Imagen de Proyector de Formas] -->
             <div class="equipment-card reveal">
-                <div class="img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&q=80&w=800" alt="[Láser PL5000]">
-                </div>
+                <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1gMFBsiBmM6JbOgH88U12Nd4WcLFY1ce_" alt="Proyector de Formas"></div>
                 <div class="card-info">
-                    <h3>Láser PL5000 RGB</h3>
-                    <div class="spec-item">
-                        <span class="spec-label">Tecnología</span>
-                        <span class="spec-value">RGB Full Color</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-label">Efectos</span>
-                        <span class="spec-value">Beam & Mapping</span>
-                    </div>
+                    <h3>Láser de Formas</h3>
+                    <div class="spec-item"><span class="spec-label">Efecto</span><span class="spec-value">Patrones RGB Dinámicos</span></div>
+                    <div class="spec-item"><span class="spec-label">Cobertura</span><span class="spec-value">Ángulo de Dispersión Amplio</span></div>
                 </div>
             </div>
-
+            <!-- [Imagen de Cámara de Humo] -->
             <div class="equipment-card reveal">
-                <div class="img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=800" alt="[Atmósfera Pro]">
-                </div>
+                <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1ZaOTzmygHr50JpLaiABMppiW7zqaNgLb" alt="Cámara de Humo"></div>
                 <div class="card-info">
-                    <h3>Atmósfera Pro</h3>
-                    <div class="spec-item">
-                        <span class="spec-label">FX</span>
-                        <span class="spec-value">Fog Machine de Alta Densidad</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-label">Inmersión</span>
-                        <span class="spec-value">Rayos de Luz 3D</span>
-                    </div>
+                    <h3>Cámara de Humo Pro</h3>
+                    <div class="spec-item"><span class="spec-label">Función</span><span class="spec-value">Visibilidad de Rayos 3D</span></div>
+                    <div class="spec-item"><span class="spec-label">Densidad</span><span class="spec-value">Haze de Alta Dispersión</span></div>
                 </div>
             </div>
-
+            <!-- [Imagen de Espejo Sin Fin] -->
             <div class="equipment-card reveal">
-                <div class="img-wrapper">
-                    <!-- Imagen de la mesa DJ reemplazada por archivo local -->
-                    <img src="mesa DJ (1).png" alt="[Setup DJ]">
-                </div>
+                <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1qK9DhNfDZn6L-7YA9WnjaZ5s6smmqQCf" alt="Espejo Sin Fin"></div>
                 <div class="card-info">
-                    <h3>Setup Industrial</h3>
-                    <div class="spec-item">
-                        <span class="spec-label">Booth</span>
-                        <span class="spec-value">Mesa DJ Reforzada</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-label">Soportes</span>
-                        <span class="spec-value">Elevación Pro</span>
-                    </div>
+                    <h3>Infinite Mirror</h3>
+                    <div class="spec-item"><span class="spec-label">Atmósfera</span><span class="spec-value">Túnel de Luz Profundo</span></div>
+                    <div class="spec-item"><span class="spec-label">Inmersión</span><span class="spec-value">Ambiente Psicotrópico RGB</span></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 03 / Hardware Adicional -->
-    <section id="hardware-extra">
+    <!-- Sección 03: Hardware -->
+    <section id="hardware">
         <div class="section-header reveal">
-            <span class="section-number">03 / HARDWARE ADICIONAL</span>
-            <h2 class="section-title">Microfonía & Control</h2>
+            <span class="section-number">03 / SOPORTE & HARDWARE</span>
+            <h2 class="section-title">Ingeniería Técnica</h2>
         </div>
 
         <div class="grid-container">
+            <!-- [Imagen de Micrófono Shure] -->
             <div class="equipment-card reveal">
-                <div class="img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1558403194-611308249627?auto=format&fit=crop&q=80&w=800" alt="[Beta 58A]">
-                </div>
+                <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1BHiWx-AQ63o1lh7HzNKq7q1RDu6xbXos" alt="Micrófono Shure"></div>
                 <div class="card-info">
-                    <h3>Beta 58A High Output</h3>
-                    <div class="spec-item">
-                        <span class="spec-label">Tipo</span>
-                        <span class="spec-value">Supercardioide Dinámico</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-label">Uso</span>
-                        <span class="spec-value">Voz Pro / Lead Vocals</span>
-                    </div>
+                    <h3>Shure Beta 58A</h3>
+                    <div class="spec-item"><span class="spec-label">Calidad</span><span class="spec-value">Cápsula de Alta Salida</span></div>
+                    <div class="spec-item"><span class="spec-label">Claridad</span><span class="spec-value">Voz Nítida sin Distorsión</span></div>
                 </div>
             </div>
-
+            <!-- [Imagen de Estructuras Modulares] -->
             <div class="equipment-card reveal">
-                <div class="img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1574169207511-e21a21c8075a?auto=format&fit=crop&q=80&w=800" alt="[DMX Control]">
-                </div>
+                <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1auKhlRq0bbfvSxGsJet46IIpp3rBl7dY" alt="Estructuras Modulares"></div>
                 <div class="card-info">
-                    <h3>DMX Control Station</h3>
-                    <div class="spec-item">
-                        <span class="spec-label">Programación</span>
-                        <span class="spec-value">Escenas y Chase Banks</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-label">Precisión</span>
-                        <span class="spec-value">Sincronización Rítmica</span>
-                    </div>
+                    <h3>Estructuras Pro</h3>
+                    <div class="spec-item"><span class="spec-label">Montaje</span><span class="spec-value">Sistemas Modulares Seguros</span></div>
+                    <div class="spec-item"><span class="spec-label">Diseño</span><span class="spec-value">Estética Industrial Booth</span></div>
                 </div>
             </div>
-
+            <!-- [Imagen de Luz de Colores] -->
             <div class="equipment-card reveal">
-                <div class="img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1505842465776-3b4953ca4f44?auto=format&fit=crop&q=80&w=800" alt="[Strobe FX]">
-                </div>
+                <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1KZMBOnydHNDgGk45qOCoZh80050l1Hg_" alt="Luz de Colores"></div>
                 <div class="card-info">
-                    <h3>Strobe & Party FX</h3>
-                    <div class="spec-item">
-                        <span class="spec-label">Modelos</span>
-                        <span class="spec-value">PL18 Party + Room Strobe</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-label">Impacto</span>
-                        <span class="spec-value">Frecuencia Variable</span>
-                    </div>
+                    <h3>Iluminación RGB</h3>
+                    <div class="spec-item"><span class="spec-label">Control</span><span class="spec-value">Sincronización DMX Master</span></div>
+                    <div class="spec-item"><span class="spec-label">Ambiente</span><span class="spec-value">Baño de Color Rítmico</span></div>
+                </div>
+            </div>
+            <!-- [Imagen de Extensión Eléctrica] -->
+            <div class="equipment-card reveal">
+                <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1QUGZterSYmVmBe6yEFIwF3yC5IZ28nSh" alt="Extensión Eléctrica"></div>
+                <div class="card-info">
+                    <h3>Infraestructura Eléctrica</h3>
+                    <div class="spec-item"><span class="spec-label">Seguridad</span><span class="spec-value">Extensiones de Alta Resistencia</span></div>
+                    <div class="spec-item"><span class="spec-label">Protección</span><span class="spec-value">Carga Regulada para Equipos</span></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 04 / Technical Rider -->
+    <!-- Tabla Rider -->
     <section id="rider">
         <div class="section-header reveal">
-            <span class="section-number">04 / TECHNICAL RIDER</span>
-            <h2 class="section-title">Resumen Técnico</h2>
+            <span class="section-number">04 / RIDER TÉCNICO</span>
+            <h2 class="section-title">Especificaciones</h2>
         </div>
-
         <div class="rider-container reveal">
             <table>
                 <thead>
-                    <tr>
-                        <th>Sistema</th>
-                        <th>Configuración</th>
-                        <th>Certificación</th>
-                    </tr>
+                    <tr><th>Componente</th><th>Modelo / Detalle</th><th>Estado</th></tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><strong>AUDIO MASTER</strong></td>
-                        <td>Beta Three N-Series / DSP Active Tuning</td>
-                        <td>CALIDAD PRO</td>
-                    </tr>
-                    <tr>
-                        <td><strong>VISUAL FX</strong></td>
-                        <td>Láser RGB + Fog Machine + Control DMX</td>
-                        <td>ESTÁNDAR STAGE</td>
-                    </tr>
-                    <tr>
-                        <td><strong>HARDWARE EXTRA</strong></td>
-                        <td>Shure Beta 58A + Controlers DMX + Strobes</td>
-                        <td>PROFESIONAL</td>
-                    </tr>
-                    <tr>
-                        <td><strong>SOPORTES</strong></td>
-                        <td>Mesa DJ Ergonómica + Stands Heavy Duty</td>
-                        <td>SEGURO PRO</td>
-                    </tr>
+                    <tr><td><strong>AUDIO</strong></td><td>Beta Three N12A + EB118A Subwoofer</td><td>CERTIFICADO</td></tr>
+                    <tr><td><strong>VISUALES</strong></td><td>Láser RGB + Espejo Infinito + Humo Pro</td><td>OPERATIVO</td></tr>
+                    <tr><td><strong>SOPORTE</strong></td><td>Estructuras Modulares + Shure Beta 58A</td><td>PROFESIONAL</td></tr>
+                    <tr><td><strong>ENERGÍA</strong></td><td>Distribución Industrial Reforzada</td><td>PROTEGIDO</td></tr>
                 </tbody>
             </table>
         </div>
@@ -705,57 +480,174 @@
 
     <footer>
         <span class="footer-logo">SPIRAL WAVE</span>
-        <a href="mailto:spiraldefuego@gmail.com" class="footer-email">spiraldefuego@gmail.com</a>
-        <p class="copyright">© 2026 - INGENIERÍA ACÚSTICA PARA EVENTOS</p>
+        <!-- Enlace de correo corregido con asunto y cuerpo predefinidos -->
+        <a href="mailto:spiraldefuego@gmail.com?subject=Solicitud%20de%20Información%20-%20Spiral%20Wave&body=Hola%20equipo%20de%20Spiral%20Wave,%0A%0AEstoy%20interesado%20en%20conocer%20más%20sobre%20sus%20servicios%20y%20equipos.%20Por%20favor,%20pónganse%20en%20contacto%20conmigo." class="footer-email">
+            spiraldefuego@gmail.com
+        </a>
+        <p style="margin-top: 30px; font-size: 0.7rem; opacity: 0.5;">© 2026 - INGENIERÍA DE EVENTOS PROFESIONALES</p>
     </footer>
 
     <script>
-        // Inicializar Iconos
         lucide.createIcons();
 
-        // Cursor Personalizado
+        // --- MOTOR DE VIAJE AL FONDO (WARP EFFECT) ---
+        const warpCanvas = document.getElementById('warp-canvas');
+        const warpCtx = warpCanvas.getContext('2d');
+        let stars = [];
+        const numStars = 250;
+        let speedMultiplier = 1;
+
+        function resizeWarp() {
+            warpCanvas.width = window.innerWidth;
+            warpCanvas.height = window.innerHeight;
+            initStars();
+        }
+
+        function initStars() {
+            stars = [];
+            for (let i = 0; i < numStars; i++) {
+                stars.push({
+                    x: (Math.random() - 0.5) * warpCanvas.width,
+                    y: (Math.random() - 0.5) * warpCanvas.height,
+                    z: Math.random() * warpCanvas.width,
+                    o: Math.random(), 
+                    flare: Math.random() > 0.95 
+                });
+            }
+        }
+
+        function drawWarp() {
+            warpCtx.fillStyle = '#050307';
+            warpCtx.fillRect(0, 0, warpCanvas.width, warpCanvas.height);
+
+            const cx = warpCanvas.width / 2;
+            const cy = warpCanvas.height / 2;
+
+            for (let i = 0; i < stars.length; i++) {
+                let star = stars[i];
+                star.z -= 2 * speedMultiplier; 
+
+                if (star.z <= 0) {
+                    star.z = warpCanvas.width;
+                    star.x = (Math.random() - 0.5) * warpCanvas.width;
+                    star.y = (Math.random() - 0.5) * warpCanvas.height;
+                }
+
+                const sx = (star.x / star.z) * warpCanvas.width + cx;
+                const sy = (star.y / star.z) * warpCanvas.width + cy;
+                const size = (1 - star.z / warpCanvas.width) * 3;
+
+                warpCtx.beginPath();
+                warpCtx.arc(sx, sy, size, 0, Math.PI * 2);
+                
+                if (star.flare) {
+                    warpCtx.fillStyle = `rgba(0, 229, 255, ${1 - star.z / warpCanvas.width})`;
+                    warpCtx.shadowBlur = 10;
+                    warpCtx.shadowColor = '#00e5ff';
+                } else {
+                    warpCtx.fillStyle = `rgba(255, 255, 255, ${0.5 - star.z / (warpCanvas.width * 2)})`;
+                    warpCtx.shadowBlur = 0;
+                }
+                
+                warpCtx.fill();
+            }
+            requestAnimationFrame(drawWarp);
+        }
+
+        window.addEventListener('resize', resizeWarp);
+        resizeWarp();
+        drawWarp();
+
+
+        // --- LÓGICA DEL EFECTO DE CÍRCULOS (TRAIL) ---
+        const trailCanvas = document.getElementById('trail-canvas');
+        const trailCtx = trailCanvas.getContext('2d');
+        let trailParticles = [];
+
+        function resizeTrail() {
+            trailCanvas.width = window.innerWidth;
+            trailCanvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeTrail);
+        resizeTrail();
+
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 15 + 10;
+                this.opacity = 1;
+                this.color = Math.random() > 0.5 ? '#00e5ff' : '#ffffff';
+                this.shrink = 0.92; 
+            }
+
+            draw() {
+                trailCtx.beginPath();
+                trailCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                trailCtx.fillStyle = this.color;
+                trailCtx.globalAlpha = this.opacity;
+                trailCtx.shadowBlur = 15;
+                trailCtx.shadowColor = this.color;
+                trailCtx.fill();
+            }
+
+            update() {
+                this.opacity *= this.shrink;
+                this.size *= 0.98;
+            }
+        }
+
+        function handleTrail(x, y) {
+            trailParticles.push(new Particle(x, y));
+            if (trailParticles.length > 60) trailParticles.shift();
+        }
+
+        function animateTrail() {
+            trailCtx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
+            for (let i = 0; i < trailParticles.length; i++) {
+                trailParticles[i].update();
+                trailParticles[i].draw();
+                if (trailParticles[i].opacity < 0.01) {
+                    trailParticles.splice(i, 1);
+                    i--;
+                }
+            }
+            requestAnimationFrame(animateTrail);
+        }
+        animateTrail();
+
+        // Cursores y Movimiento
         const cursor = document.getElementById('custom-cursor');
         const follower = document.getElementById('cursor-follower');
-        
+
         document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            follower.style.left = e.clientX + 'px';
-            follower.style.top = e.clientY + 'px';
+            const x = e.clientX;
+            const y = e.clientY;
+            if(cursor) { cursor.style.left = x + 'px'; cursor.style.top = y + 'px'; }
+            if(follower) { follower.style.left = x + 'px'; follower.style.top = y + 'px'; }
+            handleTrail(x, y);
         });
 
-        // Interacciones del cursor
-        document.querySelectorAll('a, button, .equipment-card, tr').forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursor.style.transform = 'translate(-50%, -50%) scale(2)';
-                follower.style.transform = 'translate(-50%, -50%) scale(1.5)';
-            });
-            el.addEventListener('mouseleave', () => {
-                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-                follower.style.transform = 'translate(-50%, -50%) scale(1)';
-            });
-        });
+        document.addEventListener('touchmove', (e) => {
+            const touch = e.touches[0];
+            handleTrail(touch.clientX, touch.clientY);
+        }, { passive: true });
 
-        // Barra de Progreso y Revelado al Scroll
-        const progressBar = document.getElementById('progress-bar');
-        
-        function handleScroll() {
+        // Scroll Reveal y Velocidad de Viaje
+        window.addEventListener('scroll', () => {
             const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            const heightDoc = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            progressBar.style.width = (winScroll / heightDoc) * 100 + "%";
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            document.getElementById('progress-bar').style.width = (winScroll / height) * 100 + "%";
 
-            // Revelar secciones
-            const reveals = document.querySelectorAll('.reveal');
-            reveals.forEach(el => {
-                const rect = el.getBoundingClientRect();
-                if (rect.top < window.innerHeight * 0.9) {
+            speedMultiplier = 1 + (winScroll / 500);
+
+            document.querySelectorAll('.reveal').forEach(el => {
+                if (el.getBoundingClientRect().top < window.innerHeight * 0.85) {
                     el.classList.add('active');
                 }
             });
-        }
-
-        window.addEventListener('scroll', handleScroll);
-        window.onload = handleScroll;
+        });
     </script>
 </body>
 </html>
