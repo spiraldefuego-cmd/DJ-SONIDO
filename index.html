@@ -73,7 +73,7 @@
             pointer-events: none; 
         }
 
-        /* --- Fondo Mesh (Capas de color) --- */
+        /* --- Fondo Mesh --- */
         .night-club-mesh {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -220,7 +220,8 @@
             z-index: 15;
         }
 
-        .equipment-card:hover {
+        /* Efecto Hover para Desktop y Clase Active para Mobile */
+        .equipment-card:hover, .equipment-card.is-viewed {
             transform: translateY(-10px);
             border-color: var(--accent-purple);
             box-shadow: 0 15px 40px rgba(0,0,0,0.6);
@@ -245,7 +246,7 @@
             transition: var(--transition-smooth);
         }
 
-        .equipment-card:hover img {
+        .equipment-card:hover img, .equipment-card.is-viewed img {
             filter: grayscale(0%) brightness(110%);
             transform: scale(1.08);
         }
@@ -304,7 +305,7 @@
 </head>
 <body>
 
-    <!-- Canvas para el viaje infinito al fondo -->
+    <!-- Fondo de Viaje Espacial -->
     <canvas id="warp-canvas"></canvas>
 
     <div class="night-club-mesh">
@@ -313,19 +314,19 @@
     </div>
     <div class="overlay-texture"></div>
 
-    <!-- Canvas para el rastro de círculos -->
+    <!-- Rastro de Partículas -->
     <canvas id="trail-canvas"></canvas>
 
     <div id="custom-cursor"></div>
     <div id="cursor-follower"></div>
     <div id="progress-container"><div id="progress-bar"></div></div>
 
-    <!-- Contacto Flotante: WhatsApp abre app o web automáticamente -->
+    <!-- WhatsApp: Abre automáticamente la app o web -->
     <a href="https://wa.me/573208734659" class="whatsapp-float" target="_blank" rel="noopener">
         <i data-lucide="message-circle"></i>
     </a>
 
-    <!-- Cabecera Hero -->
+    <!-- Hero -->
     <header id="home" style="position: relative; z-index: 20; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden;">
         <div style="position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(rgba(0,0,0,0.6), var(--bg-dark)), url('https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=2070') center/cover; z-index:-1;"></div>
         <div class="reveal" style="text-align: center;">
@@ -344,7 +345,7 @@
 
         <div class="grid-container">
             <div class="equipment-card reveal">
-                <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1hMa4dBLom8eFKZMW7YPSSJZ5OEtV4y3m" alt="Cabina Beta Three"></div>
+                <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1hMa4dBLom8eFKZMW7YPSSJZ5OEtV4y3m" alt="[Cabina Beta Three]"></div>
                 <div class="card-info">
                     <h3>Beta Three N12A</h3>
                     <div class="spec-item"><span class="spec-label">Tipo</span><span class="spec-value">Cabina Activa Profesional</span></div>
@@ -352,7 +353,7 @@
                 </div>
             </div>
             <div class="equipment-card reveal">
-                <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1bqRpMSlyFxyydr2XbVmxcjrYHUo2x85p" alt="Subwoofer EB118A"></div>
+                <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1bqRpMSlyFxyydr2XbVmxcjrYHUo2x85p" alt="[Subwoofer EB118A]"></div>
                 <div class="card-info">
                     <h3>Subwoofer EB118A</h3>
                     <div class="spec-item"><span class="spec-label">Potencia</span><span class="spec-value">Driver de 18 pulgadas</span></div>
@@ -360,7 +361,7 @@
                 </div>
             </div>
             <div class="equipment-card reveal">
-                <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1rNdOrUXL7F56Ko2HKS_pSXJiX1P5BZ0U" alt="Tornamesa DJ"></div>
+                <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1rNdOrUXL7F56Ko2HKS_pSXJiX1P5BZ0U" alt="[Tornamesa DJ]"></div>
                 <div class="card-info">
                     <h3>Pioneer Engine</h3>
                     <div class="spec-item"><span class="spec-label">Interface</span><span class="spec-value">Control Digital Táctil</span></div>
@@ -379,7 +380,7 @@
 
         <div class="grid-container">
             <div class="equipment-card reveal">
-                <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1gMFBsiBmM6JbOgH88U12Nd4WcLFY1ce_" alt="Proyector de Formas"></div>
+                <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1gMFBsiBmM6JbOgH88U12Nd4WcLFY1ce_" alt="[Proyector de Formas]"></div>
                 <div class="card-info">
                     <h3>Láser de Formas</h3>
                     <div class="spec-item"><span class="spec-label">Efecto</span><span class="spec-value">Patrones RGB Dinámicos</span></div>
@@ -387,7 +388,7 @@
                 </div>
             </div>
             <div class="equipment-card reveal">
-                <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1ZaOTzmygHr50JpLaiABMppiW7zqaNgLb" alt="Cámara de Humo"></div>
+                <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1ZaOTzmygHr50JpLaiABMppiW7zqaNgLb" alt="[Cámara de Humo]"></div>
                 <div class="card-info">
                     <h3>Cámara de Humo Pro</h3>
                     <div class="spec-item"><span class="spec-label">Función</span><span class="spec-value">Visibilidad de Rayos 3D</span></div>
@@ -395,7 +396,7 @@
                 </div>
             </div>
             <div class="equipment-card reveal">
-                <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1qK9DhNfDZn6L-7YA9WnjaZ5s6smmqQCf" alt="Espejo Sin Fin"></div>
+                <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1qK9DhNfDZn6L-7YA9WnjaZ5s6smmqQCf" alt="[Espejo Sin Fin]"></div>
                 <div class="card-info">
                     <h3>Infinite Mirror</h3>
                     <div class="spec-item"><span class="spec-label">Atmósfera</span><span class="spec-value">Túnel de Luz Profundo</span></div>
@@ -414,7 +415,7 @@
 
         <div class="grid-container">
             <div class="equipment-card reveal">
-                <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1BHiWx-AQ63o1lh7HzNKq7q1RDu6xbXos" alt="Micrófono Shure"></div>
+                <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1BHiWx-AQ63o1lh7HzNKq7q1RDu6xbXos" alt="[Micrófono Shure]"></div>
                 <div class="card-info">
                     <h3>Shure Beta 58A</h3>
                     <div class="spec-item"><span class="spec-label">Calidad</span><span class="spec-value">Cápsula de Alta Salida</span></div>
@@ -422,7 +423,7 @@
                 </div>
             </div>
             <div class="equipment-card reveal">
-                <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1auKhlRq0bbfvSxGsJet46IIpp3rBl7dY" alt="Estructuras Modulares"></div>
+                <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1auKhlRq0bbfvSxGsJet46IIpp3rBl7dY" alt="[Estructuras Modulares]"></div>
                 <div class="card-info">
                     <h3>Estructuras Pro</h3>
                     <div class="spec-item"><span class="spec-label">Montaje</span><span class="spec-value">Sistemas Modulares Seguros</span></div>
@@ -430,7 +431,7 @@
                 </div>
             </div>
             <div class="equipment-card reveal">
-                <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1KZMBOnydHNDgGk45qOCoZh80050l1Hg_" alt="Luz de Colores"></div>
+                <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1KZMBOnydHNDgGk45qOCoZh80050l1Hg_" alt="[Luz de Colores]"></div>
                 <div class="card-info">
                     <h3>Iluminación RGB</h3>
                     <div class="spec-item"><span class="spec-label">Control</span><span class="spec-value">Sincronización DMX Master</span></div>
@@ -438,7 +439,7 @@
                 </div>
             </div>
             <div class="equipment-card reveal">
-                <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1QUGZterSYmVmBe6yEFIwF3yC5IZ28nSh" alt="Extensión Eléctrica"></div>
+                <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1QUGZterSYmVmBe6yEFIwF3yC5IZ28nSh" alt="[Extensión Eléctrica]"></div>
                 <div class="card-info">
                     <h3>Infraestructura Eléctrica</h3>
                     <div class="spec-item"><span class="spec-label">Seguridad</span><span class="spec-value">Extensiones de Alta Resistencia</span></div>
@@ -471,8 +472,8 @@
 
     <footer>
         <span class="footer-logo">SPIRAL WAVE</span>
-        <!-- Enlace de correo: mailto se abre automáticamente en el mismo navegador -->
-        <a href="mailto:spiraldefuego@gmail.com?subject=Solicitud%20de%20Información%20-%20Spiral%20Wave&body=Hola%20equipo%20de%20Spiral%20Wave,%0A%0AEstoy%20interesado%20en%20conocer%20más%20sobre%20sus%20servicios%20y%20equipos.%20Por%20favor,%20pónganse%20en%20contacto%20conmigo." class="footer-email">
+        <!-- Mailto: se abre automáticamente en el cliente de correo del navegador -->
+        <a href="mailto:spiraldefuego@gmail.com?subject=Solicitud de Información - Spiral Wave&body=Hola equipo de Spiral Wave, me gustaría recibir más información sobre sus servicios." class="footer-email">
             spiraldefuego@gmail.com
         </a>
         <p style="margin-top: 30px; font-size: 0.7rem; opacity: 0.5;">© 2026 - INGENIERÍA DE EVENTOS PROFESIONALES</p>
@@ -481,7 +482,7 @@
     <script>
         lucide.createIcons();
 
-        // --- MOTOR DE VIAJE AL FONDO (WARP EFFECT) ---
+        // --- MOTOR DE FONDO (WARP) ---
         const warpCanvas = document.getElementById('warp-canvas');
         const warpCtx = warpCanvas.getContext('2d');
         let stars = [];
@@ -510,27 +511,22 @@
         function drawWarp() {
             warpCtx.fillStyle = '#050307';
             warpCtx.fillRect(0, 0, warpCanvas.width, warpCanvas.height);
-
             const cx = warpCanvas.width / 2;
             const cy = warpCanvas.height / 2;
 
             for (let i = 0; i < stars.length; i++) {
                 let star = stars[i];
                 star.z -= 2 * speedMultiplier; 
-
                 if (star.z <= 0) {
                     star.z = warpCanvas.width;
                     star.x = (Math.random() - 0.5) * warpCanvas.width;
                     star.y = (Math.random() - 0.5) * warpCanvas.height;
                 }
-
                 const sx = (star.x / star.z) * warpCanvas.width + cx;
                 const sy = (star.y / star.z) * warpCanvas.width + cy;
                 const size = (1 - star.z / warpCanvas.width) * 3;
-
                 warpCtx.beginPath();
                 warpCtx.arc(sx, sy, size, 0, Math.PI * 2);
-                
                 if (star.flare) {
                     warpCtx.fillStyle = `rgba(0, 229, 255, ${1 - star.z / warpCanvas.width})`;
                     warpCtx.shadowBlur = 10;
@@ -539,50 +535,40 @@
                     warpCtx.fillStyle = `rgba(255, 255, 255, ${0.5 - star.z / (warpCanvas.width * 2)})`;
                     warpCtx.shadowBlur = 0;
                 }
-                
                 warpCtx.fill();
             }
             requestAnimationFrame(drawWarp);
         }
-
         window.addEventListener('resize', resizeWarp);
         resizeWarp();
         drawWarp();
 
-
-        // --- LÓGICA DEL EFECTO DE CÍRCULOS (TRAIL) ---
+        // --- TRAIL (CÍRCULOS) ---
         const trailCanvas = document.getElementById('trail-canvas');
         const trailCtx = trailCanvas.getContext('2d');
         let trailParticles = [];
-
         function resizeTrail() {
             trailCanvas.width = window.innerWidth;
             trailCanvas.height = window.innerHeight;
         }
-
         window.addEventListener('resize', resizeTrail);
         resizeTrail();
 
         class Particle {
             constructor(x, y) {
-                this.x = x;
-                this.y = y;
+                this.x = x; this.y = y;
                 this.size = Math.random() * 15 + 10;
                 this.opacity = 1;
                 this.color = Math.random() > 0.5 ? '#00e5ff' : '#ffffff';
                 this.shrink = 0.92; 
             }
-
             draw() {
                 trailCtx.beginPath();
                 trailCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 trailCtx.fillStyle = this.color;
                 trailCtx.globalAlpha = this.opacity;
-                trailCtx.shadowBlur = 15;
-                trailCtx.shadowColor = this.color;
                 trailCtx.fill();
             }
-
             update() {
                 this.opacity *= this.shrink;
                 this.size *= 0.98;
@@ -591,7 +577,7 @@
 
         function handleTrail(x, y) {
             trailParticles.push(new Particle(x, y));
-            if (trailParticles.length > 60) trailParticles.shift();
+            if (trailParticles.length > 50) trailParticles.shift();
         }
 
         function animateTrail() {
@@ -599,16 +585,13 @@
             for (let i = 0; i < trailParticles.length; i++) {
                 trailParticles[i].update();
                 trailParticles[i].draw();
-                if (trailParticles[i].opacity < 0.01) {
-                    trailParticles.splice(i, 1);
-                    i--;
-                }
+                if (trailParticles[i].opacity < 0.01) { trailParticles.splice(i, 1); i--; }
             }
             requestAnimationFrame(animateTrail);
         }
         animateTrail();
 
-        // Cursores y Movimiento
+        // --- INTERACCIÓN Y CURSOR ---
         const cursor = document.getElementById('custom-cursor');
         const follower = document.getElementById('cursor-follower');
 
@@ -625,7 +608,25 @@
             handleTrail(touch.clientX, touch.clientY);
         }, { passive: true });
 
-        // Scroll Reveal y Velocidad de Viaje
+        // --- EFECTO "HOVER" AUTOMÁTICO PARA MÓVILES ---
+        // Al desplazar en el móvil, el cuadro que esté en el centro se activa solo
+        const mobileHoverObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-viewed');
+                } else {
+                    entry.target.classList.remove('is-viewed');
+                }
+            });
+        }, {
+            threshold: 0.6 // Se activa cuando el 60% es visible
+        });
+
+        document.querySelectorAll('.equipment-card').forEach(card => {
+            mobileHoverObserver.observe(card);
+        });
+
+        // Scroll Reveal Progress y Velocidad
         window.addEventListener('scroll', () => {
             const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
