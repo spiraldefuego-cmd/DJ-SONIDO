@@ -380,9 +380,10 @@
 
         <div class="grid-container">
             <div class="equipment-card reveal">
-                <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1gMFBsiBmM6JbOgH88U12Nd4WcLFY1ce_" alt="[Proyector de Formas]"></div>
+                <!-- Imagen Actualizada: Proyector de formas -->
+                <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1N7YgMRV3mNtazZIPM69RN4KaJCyiXbCu" alt="[Proyector Láser Formas]"></div>
                 <div class="card-info">
-                    <h3>Láser de Formas</h3>
+                    <h3>Proyector Láser (Formas)</h3>
                     <div class="spec-item"><span class="spec-label">Efecto</span><span class="spec-value">Patrones RGB Dinámicos</span></div>
                     <div class="spec-item"><span class="spec-label">Cobertura</span><span class="spec-value">Ángulo de Dispersión Amplio</span></div>
                 </div>
@@ -414,6 +415,15 @@
         </div>
 
         <div class="grid-container">
+            <!-- Nueva Imagen Agregada: Base LS-20 -->
+            <div class="equipment-card reveal">
+                <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1vGZapIK57lSBvYuxAxyP53CdDlm4zJL2" alt="[Base LS-20 PRO DJ]"></div>
+                <div class="card-info">
+                    <h3>Base LS-20 PRO DJ</h3>
+                    <div class="spec-item"><span class="spec-label">Uso</span><span class="spec-value">Soporte Reforzado para Luces</span></div>
+                    <div class="spec-item"><span class="spec-label">Capacidad</span><span class="spec-value">Carga Profesional Elevada</span></div>
+                </div>
+            </div>
             <div class="equipment-card reveal">
                 <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1BHiWx-AQ63o1lh7HzNKq7q1RDu6xbXos" alt="[Micrófono Shure]"></div>
                 <div class="card-info">
@@ -609,7 +619,6 @@
         }, { passive: true });
 
         // --- EFECTO AUTO-HOVER EN MÓVIL AL DESPLAZAR ---
-        // Usamos Intersection Observer para detectar el elemento central en pantalla
         const cardObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting && entry.intersectionRatio >= 0.6) {
@@ -619,7 +628,7 @@
                 }
             });
         }, {
-            threshold: [0.6] // Activar cuando el 60% del elemento sea visible
+            threshold: [0.6]
         });
 
         document.querySelectorAll('.equipment-card').forEach(card => {
