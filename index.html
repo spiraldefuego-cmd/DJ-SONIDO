@@ -51,14 +51,14 @@
             line-height: 1.6;
         }
 
-        /* --- Canvas de Viaje al Fondo (NUEVO) --- */
+        /* --- Canvas de Viaje al Fondo --- */
         #warp-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -3; /* Detrás de todo */
+            z-index: -3; 
             background: var(--bg-dark);
         }
 
@@ -144,6 +144,7 @@
             justify-content: center;
             z-index: 2000;
             animation: pulse-green 2s infinite;
+            text-decoration: none;
         }
 
         @keyframes pulse-green {
@@ -319,8 +320,8 @@
     <div id="cursor-follower"></div>
     <div id="progress-container"><div id="progress-bar"></div></div>
 
-    <!-- Contacto Flotante -->
-    <a href="https://wa.me/573208734659" class="whatsapp-float" target="_blank">
+    <!-- Contacto Flotante: WhatsApp abre app o web automáticamente -->
+    <a href="https://wa.me/573208734659" class="whatsapp-float" target="_blank" rel="noopener">
         <i data-lucide="message-circle"></i>
     </a>
 
@@ -342,7 +343,6 @@
         </div>
 
         <div class="grid-container">
-            <!-- [Imagen de Cabina Beta Three] -->
             <div class="equipment-card reveal">
                 <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1hMa4dBLom8eFKZMW7YPSSJZ5OEtV4y3m" alt="Cabina Beta Three"></div>
                 <div class="card-info">
@@ -351,7 +351,6 @@
                     <div class="spec-item"><span class="spec-label">Audio</span><span class="spec-value">Fidelidad N-Series DSP</span></div>
                 </div>
             </div>
-            <!-- [Imagen de Subwoofer EB118A] -->
             <div class="equipment-card reveal">
                 <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1bqRpMSlyFxyydr2XbVmxcjrYHUo2x85p" alt="Subwoofer EB118A"></div>
                 <div class="card-info">
@@ -360,7 +359,6 @@
                     <div class="spec-item"><span class="spec-label">Frecuencia</span><span class="spec-value">Bajos profundos Certificados</span></div>
                 </div>
             </div>
-            <!-- [Imagen de Tornamesa DJ] -->
             <div class="equipment-card reveal">
                 <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1rNdOrUXL7F56Ko2HKS_pSXJiX1P5BZ0U" alt="Tornamesa DJ"></div>
                 <div class="card-info">
@@ -380,7 +378,6 @@
         </div>
 
         <div class="grid-container">
-            <!-- [Imagen de Proyector de Formas] -->
             <div class="equipment-card reveal">
                 <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1gMFBsiBmM6JbOgH88U12Nd4WcLFY1ce_" alt="Proyector de Formas"></div>
                 <div class="card-info">
@@ -389,7 +386,6 @@
                     <div class="spec-item"><span class="spec-label">Cobertura</span><span class="spec-value">Ángulo de Dispersión Amplio</span></div>
                 </div>
             </div>
-            <!-- [Imagen de Cámara de Humo] -->
             <div class="equipment-card reveal">
                 <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1ZaOTzmygHr50JpLaiABMppiW7zqaNgLb" alt="Cámara de Humo"></div>
                 <div class="card-info">
@@ -398,7 +394,6 @@
                     <div class="spec-item"><span class="spec-label">Densidad</span><span class="spec-value">Haze de Alta Dispersión</span></div>
                 </div>
             </div>
-            <!-- [Imagen de Espejo Sin Fin] -->
             <div class="equipment-card reveal">
                 <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1qK9DhNfDZn6L-7YA9WnjaZ5s6smmqQCf" alt="Espejo Sin Fin"></div>
                 <div class="card-info">
@@ -418,7 +413,6 @@
         </div>
 
         <div class="grid-container">
-            <!-- [Imagen de Micrófono Shure] -->
             <div class="equipment-card reveal">
                 <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1BHiWx-AQ63o1lh7HzNKq7q1RDu6xbXos" alt="Micrófono Shure"></div>
                 <div class="card-info">
@@ -427,7 +421,6 @@
                     <div class="spec-item"><span class="spec-label">Claridad</span><span class="spec-value">Voz Nítida sin Distorsión</span></div>
                 </div>
             </div>
-            <!-- [Imagen de Estructuras Modulares] -->
             <div class="equipment-card reveal">
                 <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1auKhlRq0bbfvSxGsJet46IIpp3rBl7dY" alt="Estructuras Modulares"></div>
                 <div class="card-info">
@@ -436,7 +429,6 @@
                     <div class="spec-item"><span class="spec-label">Diseño</span><span class="spec-value">Estética Industrial Booth</span></div>
                 </div>
             </div>
-            <!-- [Imagen de Luz de Colores] -->
             <div class="equipment-card reveal">
                 <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1KZMBOnydHNDgGk45qOCoZh80050l1Hg_" alt="Luz de Colores"></div>
                 <div class="card-info">
@@ -445,7 +437,6 @@
                     <div class="spec-item"><span class="spec-label">Ambiente</span><span class="spec-value">Baño de Color Rítmico</span></div>
                 </div>
             </div>
-            <!-- [Imagen de Extensión Eléctrica] -->
             <div class="equipment-card reveal">
                 <div class="img-wrapper"><img src="https://lh3.googleusercontent.com/d/1QUGZterSYmVmBe6yEFIwF3yC5IZ28nSh" alt="Extensión Eléctrica"></div>
                 <div class="card-info">
@@ -480,7 +471,7 @@
 
     <footer>
         <span class="footer-logo">SPIRAL WAVE</span>
-        <!-- Enlace de correo corregido con asunto y cuerpo predefinidos -->
+        <!-- Enlace de correo: mailto se abre automáticamente en el mismo navegador -->
         <a href="mailto:spiraldefuego@gmail.com?subject=Solicitud%20de%20Información%20-%20Spiral%20Wave&body=Hola%20equipo%20de%20Spiral%20Wave,%0A%0AEstoy%20interesado%20en%20conocer%20más%20sobre%20sus%20servicios%20y%20equipos.%20Por%20favor,%20pónganse%20en%20contacto%20conmigo." class="footer-email">
             spiraldefuego@gmail.com
         </a>
@@ -638,7 +629,8 @@
         window.addEventListener('scroll', () => {
             const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            document.getElementById('progress-bar').style.width = (winScroll / height) * 100 + "%";
+            const progressBar = document.getElementById('progress-bar');
+            if(progressBar) progressBar.style.width = (winScroll / height) * 100 + "%";
 
             speedMultiplier = 1 + (winScroll / 500);
 
